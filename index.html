@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <!--<meta http-equiv="X-UA-Compatible" content="IE=edge">-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no /">
+	<meta name="author" content="Stanka Nicolson">
+    <meta name="description" content="Countries data">
+    <meta name="keywords" content="HTML, CSS, JavaScript, PHP">
+    <title>Countries data</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- map Leaflet's CSS-->
+    <link rel="stylesheet" type="text/css" href="vendors/leaflet/leaflet.css">
+	<link rel="stylesheet" type="text/css" href="vendors/leaflet/plugins/markerCluster/css/markerCluster.css" />
+	<link rel="stylesheet" type="text/css" href="vendors/leaflet/plugins/markerCluster/css/markerCluster.Default.css" />
+	<!--layer providers-->
+	<link rel="stylesheet" type="text/css" href="vendors/leaflet/plugins/easyButton/easy-button.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" />
+	<!--bootstrap moday-->
+    <link rel="stylesheet" href="vendors/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="libs/css/style2.css" />
+    
+    <style>
+        #mapid {
+            width: 100%;
+            height: 100vh;
+            margin-left: auto;
+            margin-right: auto;  
+        }
+
+        
+    </style>
+</head>
+<body>
+    <div class="main-container"> 
+        <div class="my-nav-bar" id="my-nav-bar">
+            <div class="container-fluid"> 
+                <div class="my-nav d-flex flex-row ">
+                    <select class="select-list col-9 col-md-4 col-lg-9 form-control" id="selCountry"></select>
+                    <!--<button type="button" id="bntCountry" class="my-btn col-3 col-md-2 col-lg-3" ><i class="fa fa-search"></i></button>-->
+                </div>
+            </div>
+        </div>
+        <div id="mapid"></div>
+    </div>
+    <!---end map container-->
+    <div class="bs-example">
+        <div id="myModal" class="modal fade" tabindex="-1">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container-fluid">  
+                             <div class="d-flex flex-row justify-content-center mt-1">
+                                 <div scope="row" class="col-6 col-md-4 col-ld-4">
+                                    <img id="img" src="" alt="landscape image" />
+                                 </div>
+                             </div> 
+                             <div class="d-flex flex-row justify-content-center">
+                                <div scope="row" class="col-6 col-md-4 col-ld-6">
+                                    <h4 class="countryName" id="txtCountry1"></h4> 
+                                </div> 
+                            </div>
+                            <table class="table table-borderless">
+                                <tbody>
+                                    <tr class="d-flex flex-row justify-content-center">
+                                        <th scope="row" class="col-6 col-md-4 col-ld-2">Country name:</th>
+                                        <td class="col-6 col-md-4 col-ld-2" id="txtCountry"></td>
+                                    </tr>
+                                    <tr class="d-flex flex-row justify-content-center">
+                                        <th scope="row" class="col-6 col-md-4 col-ld-2">Continent:</th>
+                                        <td class="col-6 col-md-4 col-ld-2" id="txtContinent"></td>
+                                    </tr>
+                                    
+                                    <tr class="d-flex flex-row justify-content-center">
+                                        <th class="col-6 col-md-4 col-ld-2">Capital:</th>
+                                        <td class="col-6 col-md-4 col-ld-2" id="txtCapital"></td>
+                                    </tr>
+                                    <tr class="d-flex flex-row justify-content-center">
+                                        <th scope="row" class="col-6 col-md-4 col-ld-2">Population:</th>
+                                        <td class="col-6 col-md-4 col-ld-2" id="txtPopulation"></td>
+                                    </tr>
+                                    <tr class="d-flex flex-row justify-content-center">
+                                        <th scope="row" class="col-6 col-md-4 col-ld-2">Area (km<sup>2</sup>):</th>
+                                        <td class="col-6 col-md-4 col-ld-2" id="txtArea"></td>
+                                    </tr>
+                                    <tr class="d-flex flex-row justify-content-center">
+                                        <th scope="row" class="col-6 col-md-4 col-ld-2">Language:</th>
+                                        <td class="col-6 col-md-4 col-ld-2" id="txtLanguage"></td>
+                                    </tr>
+                                    <tr class="d-flex flex-row justify-content-center">
+                                        <th scope="row" class="col-6 col-md-4 col-ld-2">Country flag:</th>
+                                        <td class="col-6 col-md-4 col-ld-2"><img id="txtFlag" src="" alt="flag image" style = "width: 50px; height: 25px"></td>
+                                    </tr>
+                                </tbody>
+                            </table>       
+                          
+                            <div class="my-link d-flex flex-row justify-content-center">
+                                <div scope="row" class="col-12 col-md-4 col-ld-6">
+                                    <div id="titleWiliLink"><a href="" id="wikiLinks" target="_blank"></a></div>
+                                </div>
+                               
+                            </div>  
+                            <h3 class="titleHeading">Weather</h3>
+                            <table class="table table-borderless">
+                                <tbody>
+                                    <tr class="d-flex flex-row justify-content-center">
+                                        <th scope="row" class="col-6 col-md-4 col-ld-2">Temperature:</th>
+                                        <td class="col-6 col-md-4 col-ld-2" id="temp"></td>
+                                    </tr>
+                                    <tr class="d-flex flex-row justify-content-center">
+                                        <th scope="row" class="col-6 col-md-4 col-ld-2">Feels like:</th>
+                                        <td class="col-6 col-md-4 col-ld-2"id="feelsLike"></td>
+                                    </tr>
+                                    <tr class="d-flex flex-row justify-content-center">
+                                        <th scope="row" class="col-6 col-md-4 col-ld-2">High temperature:</th>
+                                        <td class="col-6 col-md-4 col-ld-2" id="tempMax"></td>
+                                    </tr>
+                                    <tr class="d-flex flex-row justify-content-center">
+                                        <th scope="row" class="col-6 col-md-4 col-ld-2">Low temperature:</th>
+                                        <td class="col-6 col-md-4 col-ld-2" id="tempMin"></td>
+                                    </tr>
+                                    <tr class="d-flex flex-row justify-content-center">
+                                        <th scope="row" class="col-6 col-md-4 col-ld-2">Today:</th>
+                                        <td class="col-6 col-md-4 col-ld-2" id="descr"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <h3 class="titleHeading">Currency</h3>
+                            <table class="table table-borderless">
+                                <tbody>
+                                    <tr class="d-flex flex-row justify-content-center">
+                                        <th scope="row" class="col-6 col-md-4 col-ld-2">1 US Dollar equals:</th>
+                                        <td class="col-6 col-md-4 col-ld-2" id="changeRates"></td>
+                                    </tr>
+                                </tbody>
+                            </table> 
+                            <h3 class="titleHeading">Earthquakes</h3>  
+                            <div class="my-table" id="earthQuaces"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>   
+    </div>  
+  <div id="preloader"></div>
+  <script type="application/javascript" src="vendors/jquery/jquery-3.6.0.min.js"></script>
+  <script type="application/javascript" src="vendors/leaflet/leaflet.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="application/javascript" src="vendors/bootstrap/js/bootstrap.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script type="application/javascript" src="vendors/bootstrap/js/bootstrap4.5.2/bootstrap.min.js"></script>
+	<script type="application/javascript" src="libs/js/leaflet-providers.js"></script>
+	<!--load promises-->
+	<script src="https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.min.js"></script>
+	<!--load fetch -->
+	<script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.4/fetch.js"></script>
+	<!--markercluster-->
+	<script type="application/javascript" src="vendors/leaflet/plugins/markerCluster/js/leaflet.markercluster.js"></script>
+    <script type="application/javascript" src="vendors/leaflet/plugins/easyButton/easy-button.js"></script>
+    <script type="module" defer src="libs/js/script.js" charset="utf-8"></script>
+</body>
+</html>
